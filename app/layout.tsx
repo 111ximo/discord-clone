@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import {Open_Sans} from 'next/font/google'
 const inter=Open_Sans({subsets:['latin']})
+import { ThemeProvider } from "@/components/providers/theme-provider";
 import {
   ClerkProvider,
   // SignInButton,
@@ -9,6 +10,7 @@ import {
   // SignedOut,
   // UserButton
 } from '@clerk/nextjs'
+import {cn} from '@/lib/utils'
 //import localFont from "next/font/local";
 // const geistSans = localFont({
 //   src: "./fonts/GeistVF.woff",
@@ -33,12 +35,21 @@ export default function RootLayout({
 }) {
   return (
     <ClerkProvider>
-      <html lang="en">
-        <body
-          className={inter.className}>
-          {children}
+      <html lang="en" suppressHydrationWarning>
+        <body className={cn(
+          inter.className,
+          "bg-white dark:bg-[#313338]"
+        )}>
+        <ThemeProvider
+            attribute="class"
+            defaultTheme="dark"
+            enableSystem={false}
+            storageKey="discord-theme"
+          >
+            {children}
+          </ThemeProvider>
         </body>
       </html>
     </ClerkProvider>
-  );
+  ); 
 }
