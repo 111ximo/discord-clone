@@ -2,44 +2,39 @@ import { currentUser, auth } from '@clerk/nextjs/server';
 import { db } from '@/lib/db';
 
 export const initialProfile = async () => {
+  // Get user authentication details
+  const { userId, redirectToSignIn } = await auth();
+  console.log('User ID:', userId);
 
-  const { userId, redirectToSignIn} = await auth();
+  const user = await currentUser();
 
-  if (!userId) {
-    return redirectToSignIn(); // 确保用户未认证时重定向
+  // If user not found after 3 attempts, redirect to sign-in
+  if (!user) {
+        return redirectToSignIn();
   }
 
-  let user = await currentUser();
-
-  let attempts = 0;
-  while (!user && attempts < 3) {
-    attempts++;
-    console.log(`Attempt ${attempts}: User not found, retrying...`);
-    await new Promise((resolve) => setTimeout(resolve, 5000)); // 延迟 5 秒 再尝试
-    user = await currentUser(); // 重试获取用户信息
-  }
-  if(!user){
-    return redirectToSignIn();
-  }
+  // Check if the profile exists in the database
   const profile = await db.profile.findUnique({
-    where: {
-      userId: user.id
-    }
+    where: { userId: user.id },
   });
-  console.log(profile);
 
   if (profile) {
-    return profile;
+    console.log('Profile found:', profile);
+    return profile; // Return existing profile if found
   }
 
+  // If profile doesn't exist, create a new one
   const newProfile = await db.profile.create({
     data: {
       userId: user.id,
       name: `${user.firstName} ${user.lastName}`,
       imageUrl: user.imageUrl,
-      email: user.emailAddresses[0].emailAddress,
-    }
+      email: user.emailAddresses[0]?.emailAddress || '',
+    },
   });
 
-  return newProfile;
+  console.log('New profile created:', newProfile);
+  return newProfile; // Return newly created profile
+
+  
 };

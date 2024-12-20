@@ -1,16 +1,13 @@
-import type { Metadata } from "next";
 import "./globals.css";
+import type { Metadata } from "next";
 import {Open_Sans} from 'next/font/google'
-const inter=Open_Sans({subsets:['latin']})
-import { ThemeProvider } from "@/components/providers/theme-provider";
-import {
-  ClerkProvider,
-  // SignInButton,
-  // SignedIn,
-  // SignedOut,
-  // UserButton
-} from '@clerk/nextjs'
+import {ClerkProvider} from '@clerk/nextjs'
+
 import {cn} from '@/lib/utils'
+import { ThemeProvider } from "@/components/providers/theme-provider";
+import { ModalProvider } from "@/components/providers/modal-provider";
+
+
 //import localFont from "next/font/local";
 // const geistSans = localFont({
 //   src: "./fonts/GeistVF.woff",
@@ -22,6 +19,7 @@ import {cn} from '@/lib/utils'
 //   variable: "--font-geist-mono",
 //   weight: "100 900",
 // });
+const inter=Open_Sans({subsets:['latin']})
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -33,6 +31,8 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+//   const { isOpen, onClose, type } = useModal();
+// console.log("Modal state:", { isOpen, type });
   return (
     <ClerkProvider>
       <html lang="en" suppressHydrationWarning>
@@ -46,8 +46,10 @@ export default function RootLayout({
             enableSystem={false}
             storageKey="discord-theme"
           >
+            <ModalProvider />
             {children}
-          </ThemeProvider>
+        </ThemeProvider>
+        
         </body>
       </html>
     </ClerkProvider>

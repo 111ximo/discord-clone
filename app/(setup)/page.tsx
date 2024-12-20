@@ -7,7 +7,6 @@ const SetUpPage = async () => {
 
     const profile = await initialProfile();
     //console.log(profile);
-    console.log(db.server.findFirst)
     const server=await db.server.findFirst({
         where:{
             members:{
@@ -18,7 +17,6 @@ const SetUpPage = async () => {
         }
     });
 
-    //console.log(server);
     if(server){
         return redirect(`/servers/${server.id}`);
     }
