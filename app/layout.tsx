@@ -7,18 +7,6 @@ import {cn} from '@/lib/utils'
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { ModalProvider } from "@/components/providers/modal-provider";
 
-
-//import localFont from "next/font/local";
-// const geistSans = localFont({
-//   src: "./fonts/GeistVF.woff",
-//   variable: "--font-geist-sans",
-//   weight: "100 900",
-// });
-// const geistMono = localFont({
-//   src: "./fonts/GeistMonoVF.woff",
-//   variable: "--font-geist-mono",
-//   weight: "100 900",
-// });
 const inter=Open_Sans({subsets:['latin']})
 
 export const metadata: Metadata = {
@@ -31,8 +19,6 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-//   const { isOpen, onClose, type } = useModal();
-// console.log("Modal state:", { isOpen, type });
   return (
     <ClerkProvider>
       <html lang="en" suppressHydrationWarning>
@@ -48,6 +34,7 @@ export default function RootLayout({
           >
             <ModalProvider />
             {children}
+            
         </ThemeProvider>
         
         </body>
@@ -55,3 +42,16 @@ export default function RootLayout({
     </ClerkProvider>
   ); 
 }
+
+
+//import localFont from "next/font/local";
+// const geistSans = localFont({
+//   src: "./fonts/GeistVF.woff",
+//   variable: "--font-geist-sans",
+//   weight: "100 900",
+// });
+// const geistMono = localFont({
+//   src: "./fonts/GeistMonoVF.woff",
+//   variable: "--font-geist-mono",
+//   weight: "100 900",
+// });

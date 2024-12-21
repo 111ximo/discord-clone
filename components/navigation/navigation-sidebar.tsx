@@ -8,8 +8,8 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { ModeToggle } from "@/components/mode-toggle";
 
 
-import { NavigationAction } from "./navigation-action";
-import { NavigationItem } from "./navigation-item";
+import { NavigationAction } from "@/components/navigation/navigation-action";
+import { NavigationItem } from "@/components/navigation/navigation-item";
 
 
 export const NavigationSidebar=async ()=>{
@@ -31,7 +31,7 @@ export const NavigationSidebar=async ()=>{
 
     return(
         <div
-            className="space-y-4 flex flex-col items-center h-full text-primary w-full bg-zinc-100 dark:bg-[#1F1F1F] py-3"
+            className="space-y-4 flex flex-col items-center h-full text-primary w-full dark:bg-[#1F1F1F] py-3"
         >
             <NavigationAction />
             <Separator 
