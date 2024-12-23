@@ -57,6 +57,7 @@ export const ServerChannel = ({
                 <div className="ml-auto flex items-center gap-x-2">
                     <ActionTooltip label="Edit">
                         <Edit 
+                            onClick={()=>onOpen("editChannel",{server,channel})}
                             className="hidden group-hover:block w-4 h-4 text-zinc-500 dark:text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-300 transition"
                         />
                     </ActionTooltip>
