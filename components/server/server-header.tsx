@@ -19,7 +19,8 @@ import {
     DropdownMenuItem, 
     DropdownMenuSeparator
 } from "@/components/ui/dropdown-menu";
-import { useModal } from "@/hooks/use-modal-store";
+import { ModalType, useModal } from "@/hooks/use-modal-store";
+import { useState } from "react";
 
 interface ServerHeaderProps{
     server:ServerWithMemberWithProfiles;
@@ -32,13 +33,22 @@ export const ServerHeader=({
 }:ServerHeaderProps)=>{
     const {onOpen}=useModal();
 
+    const [isOpen, setIsOpen] = useState(false); // 添加状态管理
+
     const isAdmin=role===MemberRole.ADMIN;
     const isModerator=isAdmin||role===MemberRole.MODERATOR;
+
+    // 添加 handleModalOpen 函数，解决状态混乱问题
+    const handleModalOpen = (type: ModalType, server?: ServerWithMemberWithProfiles) => {
+        setIsOpen(false);
+        onOpen(type, { server }); 
+    };
+
 
     return (
 
 
-        <DropdownMenu>
+        <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
             <DropdownMenuTrigger
                 className="focus:outline-none"
                 asChild
@@ -55,7 +65,7 @@ export const ServerHeader=({
             >
                 {isModerator&&(
                     <DropdownMenuItem
-                    onClick={()=>onOpen("invite",{server})}
+                    onClick={()=>handleModalOpen("invite",server)}
                     className="text-indigo-600 dark:text-indigo-400 px-3 py-2 text-sm cursor-pointer"
                     >
                         Invite people
@@ -64,7 +74,7 @@ export const ServerHeader=({
                 )}
                 {isAdmin&&(
                     <DropdownMenuItem
-                    onClick={()=>onOpen("editServer",{server})}
+                    onClick={()=>handleModalOpen("editServer",server)}
                     className="px-3 py-2 text-sm cursor-pointer"
                     >
                         Server Settings
@@ -73,7 +83,7 @@ export const ServerHeader=({
                 )}
                 {isAdmin&&(
                     <DropdownMenuItem
-                    onClick={()=>onOpen("members",{server})}
+                    onClick={()=>handleModalOpen("members",server)}
                     className="px-3 py-2 text-sm cursor-pointer"
                     >
                         Manage Members
@@ -82,7 +92,7 @@ export const ServerHeader=({
                 )}
                 {isModerator&&(
                     <DropdownMenuItem
-                    onClick={()=>onOpen("createChannel")}
+                    onClick={()=>handleModalOpen("createChannel")}
                     className="px-3 py-2 text-sm cursor-pointer"
                     >
                         Create Channel
@@ -94,7 +104,7 @@ export const ServerHeader=({
                 )}
                 {isAdmin&&(
                     <DropdownMenuItem
-                    onClick={()=>onOpen("deleteServer",{server})}
+                    onClick={()=>handleModalOpen("deleteServer",server)}
                     className="text-rose-500 px-3 py-2 text-sm cursor-pointer"
                     >
                         Delete Server
@@ -103,7 +113,7 @@ export const ServerHeader=({
                 )}
                 {!isAdmin&&(
                     <DropdownMenuItem
-                    onClick={()=>onOpen("leaveServer",{server})}
+                    onClick={()=>handleModalOpen("leaveServer",server)}
                     className="text-rose-500 px-3 py-2 text-sm cursor-pointer"
                     >
                         Leave Server
