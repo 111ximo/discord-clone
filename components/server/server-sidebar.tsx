@@ -9,7 +9,7 @@ import { Separator } from "@/components/ui/separator";
 
 import { ServerHeader } from "@/components/server/server-header";
 import { ServerSearch } from "@/components/server/server-search";
-import { ServerSection } from "../providers/server-section";
+import { ServerSection } from "./server-section";
 import { ServerChannel } from "./server-channel";
 import { ServerMember } from "./server-member";
 
