@@ -36,6 +36,8 @@ export const ServerHeader=({
     const isModerator=isAdmin||role===MemberRole.MODERATOR;
 
     return (
+
+
         <DropdownMenu>
             <DropdownMenuTrigger
                 className="focus:outline-none"
