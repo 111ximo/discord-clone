@@ -8,6 +8,9 @@ const config: Config = {
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
+	screens: {
+		md: "768px",
+	},
   	extend: {
   		colors: {
   			background: 'hsl(var(--background))',
@@ -49,7 +52,7 @@ const config: Config = {
   				'3': 'hsl(var(--chart-3))',
   				'4': 'hsl(var(--chart-4))',
   				'5': 'hsl(var(--chart-5))'
-  			}
+  			},
   		},
   		borderRadius: {
   			lg: 'var(--radius)',
@@ -57,9 +60,8 @@ const config: Config = {
   			sm: 'calc(var(--radius) - 4px)'
   		}
   	},
-	screens:{
-		'md': '768px',
-	}
+
+
   },
   plugins: [tailwindcssAnimate],
 };
