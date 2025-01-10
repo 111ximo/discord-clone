@@ -1,11 +1,14 @@
 "use client";
 
-import { Member, Message,Profile } from "@prisma/client";
-import { format } from "date-fns";
-import { ChatWelcome } from "./chat-welcome";
-import { useChatQuery } from "@/hooks/use-chat-query";
-import { Loader, ServerCrash } from "lucide-react";
 import { Fragment } from "react";
+import { format } from "date-fns";
+import { Loader, ServerCrash } from "lucide-react";
+import { Member, Message,Profile } from "@prisma/client";
+
+import { useChatQuery } from "@/hooks/use-chat-query";
+import { useChatSocket } from "@/hooks/use-chat-socket";
+
+import { ChatWelcome } from "./chat-welcome";
 import { ChatItem } from "./chat-item";
 
 const DATE_FORMAT="d MM yyyy, HH:mm";
@@ -40,6 +43,8 @@ export const ChatMessages = ({
     type
 }:ChatMessagesProps) => {
     const queryKey=`chat:${chatId}`;
+    const addKey=`chat:${chatId}:messages`;
+    const updateKey=`chat:${chatId}:messages:update`;
 
     const {
         data,
@@ -53,6 +58,8 @@ export const ChatMessages = ({
         paramKey,
         paramValue
     })
+
+    useChatSocket({queryKey,addKey,updateKey})
 
     if(status==="pending"){
         return (
