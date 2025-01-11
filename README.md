@@ -4,7 +4,7 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 #### First, create .env
 go into the clerk, neon and uploadingthing
-
+add relative keys in your .env file
 ```
 NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=your_publicshare_key
 CLERK_SECRET_KEY=your_key
