@@ -28,20 +28,19 @@ export default function RootLayout({
           inter.className,
           "bg-white dark:bg-[#313338]"
         )}>
-        <ThemeProvider
-            attribute="class"
-            defaultTheme="dark"
-            enableSystem={false}
-            storageKey="discord-theme"
-          >
-            <SocketProvider>
-              <ModalProvider />
-              <QueryProvider>
-                {children}
-              </QueryProvider>
-            </SocketProvider>
-        </ThemeProvider>
-        
+          <ThemeProvider
+              attribute="class"
+              defaultTheme="dark"
+              enableSystem={false}
+              storageKey="discord-theme"
+            >
+              <SocketProvider>
+                <ModalProvider />
+                <QueryProvider>
+                  {children}
+                </QueryProvider>
+              </SocketProvider>
+          </ThemeProvider>
         </body>
       </html>
     </ClerkProvider>
