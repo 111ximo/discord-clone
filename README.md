@@ -19,9 +19,14 @@ UPLOADTHING_SECRET=your_select
 UPLOADTHING_APP_ID=your_id
 UPLOADTHING_TOKEN=your_token
 ```
+#### Second,run the two command
+```
+npm install
+npx prisma generate
+npx prisma db push
+```
 
-
-#### Second,run the development server:
+#### Third,run the development server:
 
 ```bash
 npm run dev
