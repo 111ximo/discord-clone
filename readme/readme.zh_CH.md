@@ -1,13 +1,13 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+这是一个用 [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app)启动的 [Next.js](https://nextjs.org) 项目。
 
-- en[简体中文](readme/README.zh_CN.md)
+- en[English](@/README.md)
 
-## Getting Started
+## 快速启动
 
-#### First, create .env
-go into the clerk, neon and uploadingthing, livekit
+#### 首先，创建.env文件
+进入clerk, neon, uploadingthing, livekit 的官网
 
-add relative keys in your .env file
+在.env文件里添加相关环境变量
 ```
 NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=your_publicshare_key
 CLERK_SECRET_KEY=your_key
@@ -26,14 +26,14 @@ LIVEKIT_API_KEY=your_key
 LIVEKIT_API_SECRET=your_secret_key
 NEXT_PUBLIC_LIVEKIT_URL=your_websocket_url
 ```
-#### Second,run the two command
+#### 然后，运行这几个命令
 ```
 npm install
 npx prisma generate
 npx prisma db push
 ```
 
-#### Third,run the development server:
+#### 之后，运行项目
 
 ```bash
 npm run dev
@@ -45,4 +45,4 @@ pnpm dev
 bun dev
 ```
 
-open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+通过浏览器打开 [http://localhost:3000](http://localhost:3000)来查看结果。
