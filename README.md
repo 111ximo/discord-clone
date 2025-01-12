@@ -1,6 +1,6 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-- en[简体中文](readme/README.zh_CN.md)
+- zn_CN [简体中文](readme/README.zh_CN.md)
 
 ## Getting Started
 

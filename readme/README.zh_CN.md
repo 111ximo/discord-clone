@@ -1,6 +1,6 @@
 这是一个用 [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app)启动的 [Next.js](https://nextjs.org) 项目。
 
-- en[English](@/README.md)
+- en [English](../README.md)
 
 ## 快速启动
 
