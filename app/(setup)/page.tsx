@@ -1,7 +1,11 @@
 import { redirect } from "next/navigation";
 import { db } from "@/lib/db";
 import { initialProfile } from "@/lib/initial-profile";
-import { InitialModal } from "@/components/modals/initial-modal";
+
+import dynamic from "next/dynamic";
+
+const InitialModal = dynamic(() => import("@/components/modals/initial-modal").then(mod => mod.InitialModal), { loading: () => <div>Loading...</div> } );
+  
 //use "npx prisma studio" to see the data in the database"
 const SetUpPage = async () => {
 
