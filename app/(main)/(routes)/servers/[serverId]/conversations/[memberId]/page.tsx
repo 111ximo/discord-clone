@@ -1,13 +1,21 @@
 import { ChatHeader } from "@/components/chat/chat-header";
 import { ChatInput } from "@/components/chat/chat-input";
 import { ChatMessages } from "@/components/chat/chat-messages";
-import { MediaRoom } from "@/components/media-room";
 import { getOrCreateConversation } from "@/lib/conversation";
 import { currentProfile } from "@/lib/current-profile";
 import { db } from "@/lib/db";
 
-import { RedirectToSignIn } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
+
+import dynamic from 'next/dynamic';
+
+const MediaRoom = dynamic(
+  () => import("@/components/media-room"),
+  {
+    loading: () => <div>Loading...</div>,
+    ssr: false
+  }
+);
 
 interface MemberIdPageProps {
     params:{
@@ -26,7 +34,7 @@ const MemberIdPage = async({
     const profile =await currentProfile();
 
     if(!profile){
-        return <RedirectToSignIn />
+        return redirect("/");
     }
 
     const currentMember=await db.member.findFirst({

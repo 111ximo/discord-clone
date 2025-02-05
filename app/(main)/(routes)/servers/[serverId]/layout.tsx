@@ -1,4 +1,3 @@
-import { RedirectToSignIn } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 
 import { currentProfile } from "@/lib/current-profile";
@@ -15,7 +14,7 @@ const ServerIdLayout = async ({
     const profile=await currentProfile();
 
     if(!profile){
-        return <RedirectToSignIn />;
+        return redirect("/");
     }
 
     const server=await db.server.findFirst({

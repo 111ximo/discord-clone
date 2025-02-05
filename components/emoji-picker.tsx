@@ -7,9 +7,21 @@ import {
   } from "@/components/ui/popover"
 
 import { Smile } from "lucide-react";
-import Picker from "@emoji-mart/react";
+
+
 import data from "@emoji-mart/data";
 import {useTheme} from "next-themes";
+
+import dynamic from 'next/dynamic';
+
+const EmojiMartPicker = dynamic(
+    () => import('@emoji-mart/react').then((mod) => mod.default),
+    { 
+      loading: () => <div>Loading...</div>,
+      ssr: false 
+    }
+  );
+  
 
 interface EmojiPickerProps{
     onChange:(value:string)=>void;
@@ -33,7 +45,7 @@ export const EmojiPicker = ({
                 sideOffset={40}
                 className="bg-transparent border-none shadow-none drop-shadow-none mb-16"
             >
-                <Picker 
+                <EmojiMartPicker 
                     theme={resolvedTheme}
                     data={data}
                     onEmojiSelect={(emoji:any)=>onChange(emoji.native)}

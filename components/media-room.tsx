@@ -1,10 +1,26 @@
 "use client";
 
 import {useEffect, useState} from "react";
-import {LiveKitRoom,VideoConference} from "@livekit/components-react";
-import "@livekit/components-styles"
 import { useUser } from "@clerk/nextjs";
 import { Loader } from "lucide-react";
+import dynamic from "next/dynamic";
+import '@livekit/components-styles';
+
+const VideoConference = dynamic(() => 
+    import('@livekit/components-react').then(mod => mod.VideoConference),
+    {
+        loading: () => <div>Loading...</div>,
+        ssr: false
+    }
+  );
+  
+  const LiveKitRoom = dynamic(() => 
+    import('@livekit/components-react').then(mod => mod.LiveKitRoom),
+    {
+        loading: () => <div>Loading...</div>,
+        ssr: false
+    }
+  );
 
 interface MediaRoomProps{
     chatId: string;
@@ -12,15 +28,16 @@ interface MediaRoomProps{
     audio: boolean;
 };
 
-export const MediaRoom=({
+
+const MediaRoom=({
     chatId,
     video,
     audio
 }: MediaRoomProps)=>{
     const {user}=useUser();
     const [token,setToken]=useState("");
-
     useEffect(()=>{
+        //import('@livekit/components-styles');
         if(!user?.firstName||!user.lastName) return;
         const name=`${user.firstName}${user.lastName}`;
 
@@ -63,3 +80,4 @@ export const MediaRoom=({
         </LiveKitRoom>
     )
 }
+export default MediaRoom;

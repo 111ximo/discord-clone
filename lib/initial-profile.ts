@@ -1,16 +1,17 @@
 import { currentUser, auth } from '@clerk/nextjs/server';
 import { db } from '@/lib/db';
+import { redirect } from 'next/navigation';
 
 export const initialProfile = async () => {
   // Get user authentication details
-  const { userId, redirectToSignIn } = await auth();
+  const { userId } = await auth();
   console.log('User ID:', userId);
 
   const user = await currentUser();
 
   // If user not found after 3 attempts, redirect to sign-in
   if (!user) {
-        return redirectToSignIn();
+    return redirect("/");
   }
 
   // Check if the profile exists in the database
