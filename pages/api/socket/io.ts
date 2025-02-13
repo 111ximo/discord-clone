@@ -18,13 +18,29 @@ const ioHandler = (req: NextApiRequest, res: NextApiResponseServerIo) => {
       cors: {
         origin: "*",
         methods: ["GET", "POST"],
+        credentials: true,
+        allowedHeaders: ["content-type"]
       },
+      // 添加连接处理
+      connectTimeout: 45000,
+      pingTimeout: 20000,
+      upgradeTimeout: 10000,
+      // 添加传输配置
       transports: ['websocket', 'polling'],
+    });
+
+    // 添加连接监听
+    io.on('connection', (socket) => {
+      console.log('Client connected');
+      
+      socket.on('disconnect', () => {
+        console.log('Client disconnected');
+      });
     });
     
     res.socket.server.io = io;
   }
-  
+
   res.end();
 };
 

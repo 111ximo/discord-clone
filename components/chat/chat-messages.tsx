@@ -1,7 +1,7 @@
 "use client";
 
-import { Fragment,useRef,ElementRef } from "react";
-import { format } from "date-fns";
+import { Fragment,useRef,ElementRef, useMemo, useCallback } from "react";
+import {format} from 'date-fns/format';
 import { Loader, ServerCrash } from "lucide-react";
 import { Member, Message,Profile } from "@prisma/client";
 
@@ -43,12 +43,20 @@ export const ChatMessages = ({
     paramValue,
     type
 }:ChatMessagesProps) => {
-    const queryKey=`chat:${chatId}`;
-    const addKey=`chat:${chatId}:messages`;
-    const updateKey=`chat:${chatId}:messages:update`;
+    const queryKey = useMemo(() => `chat:${chatId}`, [chatId]);
+    const addKey = useMemo(() => `chat:${chatId}:messages`, [chatId]);
+    const updateKey = useMemo(() => `chat:${chatId}:messages:update`, [chatId]);
 
-    const chatRef=useRef<ElementRef<"div">>(null);
-    const bottomRef=useRef<ElementRef<"div">>(null);
+    const chatRef = useRef<ElementRef<"div">>(null);
+    const bottomRef = useRef<ElementRef<"div">>(null);
+
+    // 缓存查询参数
+    const queryParams = useMemo(() => ({
+        queryKey,
+        apiUrl,
+        paramKey,
+        paramValue
+    }), [queryKey, apiUrl, paramKey, paramValue]);
 
     const {
         data,
@@ -63,14 +71,51 @@ export const ChatMessages = ({
         paramValue
     })
 
-    useChatSocket({queryKey,addKey,updateKey});
-    useChatScroll({
+    // 缓存 socket 参数
+    const socketParams = useMemo(() => ({
+        queryKey,
+        addKey,
+        updateKey
+    }), [queryKey, addKey, updateKey]);
+
+    // 缓存滚动参数
+    const scrollParams = useMemo(() => ({
         chatRef,
         bottomRef,
-        shouldLoadMore:!isFetchingNextPage&&!!hasNextPage,
-        loadMore:fetchNextPage,
-        count:data?.pages?.[0]?.items?.length??0
-    })
+        shouldLoadMore: !isFetchingNextPage && !!hasNextPage,
+        loadMore: fetchNextPage,
+        count: data?.pages?.[0]?.items?.length ?? 0
+    }), [isFetchingNextPage, hasNextPage, fetchNextPage, data?.pages])
+
+    useChatSocket(socketParams);
+    useChatScroll(scrollParams)
+
+    // 缓存加载更多的处理函数
+    const handleLoadMore = useCallback(() => {
+        fetchNextPage();
+    }, [fetchNextPage]);
+
+    const renderMessages = useMemo(() => (
+        data?.pages?.map((group, i) => (
+            <Fragment key={i}>
+                {group.items.map((message: MessageWithMemberWithProfile) => (
+                    <ChatItem
+                        key={message.id}
+                        id={message.id}
+                        currentMember={member}
+                        member={message.member}
+                        content={message.content}
+                        fileUrl={message.fileUrl}
+                        deleted={message.deleted}
+                        timestamp={format(new Date(message.createdAt), DATE_FORMAT)}
+                        isUpdated={message.updatedAt !== message.createdAt}
+                        socketUrl={socketUrl}
+                        socketQuery={socketQuery}
+                    />
+                ))}
+            </Fragment>
+        ))
+    ), [data?.pages, member, socketUrl, socketQuery]);
 
     if(status==="pending"){
         return (
@@ -109,7 +154,7 @@ export const ChatMessages = ({
                         <Loader className="h-6 w-6 text-zinc-500 animate-spin my-4"/>
                     ):(
                         <button
-                            onClick={()=>fetchNextPage()}
+                            onClick={handleLoadMore}
                             className="text-xs text-zinc-500 hover:text-zinc-600 dark:text-zinc-400 my-4 dark:hover:text-zinc-300 transition"
                         >
                             Load previous messages
@@ -118,25 +163,7 @@ export const ChatMessages = ({
                 </div>
             )}
                 <div className="flex flex-col-reverse mt-auto">
-                    {data?.pages?.map((group,i)=>(
-                        <Fragment key={i}>
-                            {group.items.map((message:MessageWithMemberWithProfile)=>(
-                                <ChatItem 
-                                    key={message.id}
-                                    id={message.id}
-                                    currentMember={member}
-                                    member={message.member}
-                                    content={message.content}
-                                    fileUrl={message.fileUrl}
-                                    deleted={message.deleted}
-                                    timestamp={format(new Date(message.createdAt),DATE_FORMAT)}
-                                    isUpdated={message.updatedAt!==message.createdAt}
-                                    socketUrl={socketUrl}
-                                    socketQuery={socketQuery}
-                                />
-                            ))}
-                        </Fragment> 
-                    ))}
+                    {renderMessages}
                 </div>
             <div ref={bottomRef}/>
         </div>

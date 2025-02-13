@@ -1,4 +1,3 @@
-import { RedirectToSignIn } from "@clerk/nextjs";
 import { ChannelType } from "@prisma/client";
 import { redirect } from "next/navigation";
 
@@ -7,7 +6,16 @@ import { currentProfile } from "@/lib/current-profile";
 import { ChatHeader } from "@/components/chat/chat-header";
 import { ChatInput } from "@/components/chat/chat-input";
 import { ChatMessages } from "@/components/chat/chat-messages";
-import { MediaRoom } from "@/components/media-room";
+
+import dynamic from 'next/dynamic';
+
+const MediaRoom = dynamic(
+  () => import("@/components/media-room"),
+  {
+    loading: () => <div>Loading...</div>,
+    ssr: false
+  }
+);
 
 interface ChannelIdPageProps {
     params:{
@@ -22,7 +30,7 @@ const ChannelIdPage = async({
     const profile=await currentProfile();
 
     if(!profile){
-        return <RedirectToSignIn />;
+        return redirect("/");
     }
 
     const channel=await db.channel.findUnique({
@@ -77,6 +85,7 @@ const ChannelIdPage = async({
                 </>
             )}
             {channel.type===ChannelType.AUDIO&&(
+                
                 <MediaRoom 
                     chatId={channel.id}
                     video={false}
