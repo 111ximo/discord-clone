@@ -1,107 +1,56 @@
-import { ChannelType } from "@prisma/client";
 import { redirect } from "next/navigation";
-
 import { db } from "@/lib/db";
 import { currentProfile } from "@/lib/current-profile";
 import { ChatHeader } from "@/components/chat/chat-header";
-import { ChatInput } from "@/components/chat/chat-input";
-import { ChatMessages } from "@/components/chat/chat-messages";
+import { ChannelContentProvider } from "@/components/providers/channel-content-provider";
 
-import dynamic from 'next/dynamic';
-
-const MediaRoom = dynamic(
-  () => import("@/components/media-room"),
-  {
-    loading: () => <div>Loading...</div>,
-    ssr: false
-  }
-);
-
-interface ChannelIdPageProps {
-    params:{
+interface ChannelPageProps {
+    params: Promise<{
         serverId: string;
         channelId: string;
-    }
+    }>;
 }
 
-const ChannelIdPage = async({
+const ChannelIdPage = async ({
     params
-}: ChannelIdPageProps) => {
-    const profile=await currentProfile();
+}: ChannelPageProps) => {
+    const profile = await currentProfile();
+    const { serverId, channelId } = await params;
 
-    if(!profile){
+    if (!profile) {
         return redirect("/");
     }
 
-    const channel=await db.channel.findUnique({
-        where:{
-            id: params.channelId
+    const channel = await db.channel.findUnique({
+        where: {
+            id: channelId
         }
-    })
-
-    const member=await db.member.findFirst({
-        where:{
-            serverId: params.serverId,
-            profileId: profile.id
-        } 
     });
 
-    if(!channel||!member){
-        redirect(`/`);
+    const member = await db.member.findFirst({
+        where: {
+            serverId: serverId,
+            profileId: profile.id
+        }
+    });
+
+    if(!channel || !member){
+        redirect("/");
     }
 
-    return(
+    return (
         <div className="bg-white dark:bg-[#313338] flex flex-col h-full">
             <ChatHeader 
                 name={channel.name}
                 serverId={channel.serverId}
                 type="channel"
             />
-            {channel.type===ChannelType.TEXT&&(
-                <>
-                    <ChatMessages 
-                        member={member}
-                        name={channel.name}
-                        chatId={channel.id}
-                        type="channel"
-                        apiUrl="/api/messages"
-                        socketUrl="/api/socket/messages"
-                        socketQuery={{
-                            channelId: channel.id,
-                            serverId: channel.serverId
-                        }}
-                        paramKey="channelId"
-                        paramValue={channel.id}
-                    />
-                    <ChatInput 
-                        name={channel.name}
-                        type="channel"
-                        apiUrl="/api/socket/messages"
-                        query={{
-                            channelId: channel.id,
-                            serverId: channel.serverId,
-                        }}
-                    />
-                </>
-            )}
-            {channel.type===ChannelType.AUDIO&&(
-                
-                <MediaRoom 
-                    chatId={channel.id}
-                    video={false}
-                    audio={true}
-                />
-            )}
-            {channel.type===ChannelType.VIDEO&&(
-                <MediaRoom 
-                    chatId={channel.id}
-                    video={true}
-                    audio={true}
-                />
-            )}
-            
+            <ChannelContentProvider 
+                channel={channel}
+                member={member}
+            />
         </div>
-    )
+    );
 }
  
 export default ChannelIdPage;

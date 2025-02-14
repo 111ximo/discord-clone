@@ -79,3 +79,5 @@ export async function GET(
         return new NextResponse("Initial Error",{status:500})
     }
 }
+
+export const dynamic = 'force-dynamic'

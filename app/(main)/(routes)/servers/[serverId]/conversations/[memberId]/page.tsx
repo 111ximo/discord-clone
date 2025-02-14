@@ -13,7 +13,6 @@ const MediaRoom = dynamic(
   () => import("@/components/media-room"),
   {
     loading: () => <div>Loading...</div>,
-    ssr: false
   }
 );
 
