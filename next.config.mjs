@@ -9,31 +9,31 @@ const nextConfig = {
         //     });
         // }
 
-        // 客户端优化配置
-        if (!isServer) {
-            config.optimization.splitChunks = {
-                chunks: 'all',
-                minSize: 20000,
-                cacheGroups: {
-                    // 关键依赖单独打包
-                    critical: {
-                        test: /[\\/]node_modules[\\/](react|react-dom|next)[\\/]/,
-                        name: 'critical',
-                        priority: 50,
-                        enforce: true,
-                    },
-                    // 其他依赖合并打包
-                    vendors: {
-                        test: /[\\/]node_modules[\\/]/,
-                        name: 'vendors',
-                        priority: 20,
-                        reuseExistingChunk: true,
-                    }
-                }
-            };
+        // // 客户端优化配置
+        // if (!isServer) {
+        //     config.optimization.splitChunks = {
+        //         chunks: 'all',
+        //         minSize: 20000,
+        //         cacheGroups: {
+        //             // 关键依赖单独打包
+        //             critical: {
+        //                 test: /[\\/]node_modules[\\/](react|react-dom|next)[\\/]/,
+        //                 name: 'critical',
+        //                 priority: 50,
+        //                 enforce: true,
+        //             },
+        //             // 其他依赖合并打包
+        //             vendors: {
+        //                 test: /[\\/]node_modules[\\/]/,
+        //                 name: 'vendors',
+        //                 priority: 20,
+        //                 reuseExistingChunk: true,
+        //             }
+        //         }
+        //     };
 
-            config.optimization.minimize = true;
-        }
+        //     config.optimization.minimize = true;
+        // }
 
         return config;
     },
@@ -41,7 +41,7 @@ const nextConfig = {
     typescript: {
         ignoreBuildErrors: true
     },
-    compress: true,
+    // compress: true,
     images: {
         remotePatterns: [
             {
