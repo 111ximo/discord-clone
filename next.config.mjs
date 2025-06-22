@@ -1,6 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     webpack: (config, { dev, isServer }) => {
+        if (isServer) {
+            config.externals.push({
+                "utf-8-validate": "commonjs utf-8-validate",
+                bufferutil: "commonjs bufferutil"
+            });
+        }
         // // 服务器端配置
         // if (isServer) {
         //     config.externals.push({
@@ -57,7 +63,13 @@ const nextConfig = {
         imageSizes: [16, 32, 48, 64, 96, 128]
     },
     experimental: {
-        optimizeCss: true
+        optimizeCss: true,
+        // 添加服务器组件配置
+        serverComponents: true,
+        // 添加错误处理配置
+        serverActions: true,
+        // 修复 SSR 渲染问题
+        esmExternals: 'loose'
     }
 };
 
