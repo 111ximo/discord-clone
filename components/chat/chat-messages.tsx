@@ -64,12 +64,7 @@ export const ChatMessages = ({
         hasNextPage,
         isFetchingNextPage,
         status,
-    }=useChatQuery({
-        queryKey,
-        apiUrl,
-        paramKey,
-        paramValue
-    })
+    }=useChatQuery(queryParams)
 
     // 缓存 socket 参数
     const socketParams = useMemo(() => ({
