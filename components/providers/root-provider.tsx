@@ -1,22 +1,10 @@
 "use client";
 
-import dynamic from 'next/dynamic';
 import {ClerkProvider} from '@clerk/nextjs';
 
-const ModalProvider = dynamic(
-  () => import('@/components/providers/modal-provider').then(mod => mod.ModalProvider),
-  { ssr: false }
-);
-
-const SocketProvider = dynamic(
-  () => import('@/components/providers/socket-provider').then(mod => mod.SocketProvider),
-  { ssr: false }
-);
-
-const QueryProvider = dynamic(
-  () => import('@/components/providers/query-provider').then(mod => mod.QueryProvider),
-  { ssr: false }
-);
+import { ModalProvider } from '@/components/providers/modal-provider';
+import { SocketProvider } from '@/components/providers/socket-provider';
+import { QueryProvider } from '@/components/providers/query-provider';
 
 export const RootProvider = ({
     children

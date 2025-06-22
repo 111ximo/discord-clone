@@ -8,11 +8,8 @@ import {
 
 import { Smile } from "lucide-react";
 
-
 import data from "@emoji-mart/data";
 import {useTheme} from "next-themes";
-
-import dynamic from 'next/dynamic';
 
 import Picker from '@emoji-mart/react';
 

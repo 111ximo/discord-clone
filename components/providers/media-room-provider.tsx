@@ -1,15 +1,6 @@
 "use client";
 
-import dynamic from 'next/dynamic';
-
-const MediaRoom = dynamic(
-  () => import("@/components/media-room"),
-  {
-    loading: () => <div className="flex items-center justify-center h-full">Loading media...</div>,
-    ssr: false
-  }
-);
-
+import MediaRoom from '@/components/media-room';
 interface MediaRoomProviderProps {
     chatId: string;
     video: boolean;
