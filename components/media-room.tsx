@@ -3,25 +3,7 @@
 import {useEffect, useState} from "react";
 import { useUser } from "@clerk/nextjs";
 import { Loader } from "lucide-react";
-import dynamic from "next/dynamic";
-import '@livekit/components-styles';
-
-const VideoConference = dynamic(() => 
-    import('@livekit/components-react').then(mod => mod.VideoConference),
-    {
-        loading: () => <div>Loading...</div>,
-        ssr: false
-    }
-  );
-  
-  const LiveKitRoom = dynamic(() => 
-    import('@livekit/components-react').then(mod => mod.LiveKitRoom),
-    {
-        loading: () => <div>Loading...</div>,
-        ssr: false
-    }
-  );
-
+import { VideoConference, LiveKitRoom } from '@livekit/components-react';
 interface MediaRoomProps{
     chatId: string;
     video: boolean;

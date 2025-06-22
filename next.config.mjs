@@ -1,13 +1,13 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     webpack: (config, { dev, isServer }) => {
-        // 服务器端配置
-        if (isServer) {
-            config.externals.push({
-                "utf-8-validate": "commonjs utf-8-validate",
-                bufferutil: "commonjs bufferutil"
-            });
-        }
+        // // 服务器端配置
+        // if (isServer) {
+        //     config.externals.push({
+        //         "utf-8-validate": "commonjs utf-8-validate",
+        //         bufferutil: "commonjs bufferutil"
+        //     });
+        // }
 
         // 客户端优化配置
         if (!isServer) {
