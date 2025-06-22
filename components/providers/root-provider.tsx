@@ -1,14 +1,7 @@
 "use client";
 
 import dynamic from 'next/dynamic';
-
-const ClerkProvider = dynamic(
-  () => import('@clerk/nextjs').then(mod => mod.ClerkProvider),
-  { 
-    loading: () => <div className="h-full w-full flex items-center justify-center">Loading...</div>,
-    ssr: false 
-  }
-);
+import {ClerkProvider} from '@clerk/nextjs';
 
 const ModalProvider = dynamic(
   () => import('@/components/providers/modal-provider').then(mod => mod.ModalProvider),
