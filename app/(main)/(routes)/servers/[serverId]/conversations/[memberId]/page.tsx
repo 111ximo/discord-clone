@@ -36,10 +36,12 @@ const MemberIdPage = async({
         return redirect("/");
     }
 
+    const {serverId}= await params;
+
     const currentMember=await db.member.findFirst({
         where:{
             profileId:profile.id,
-            serverId:params.serverId
+            serverId:serverId
         },
         include:{
             profile:true

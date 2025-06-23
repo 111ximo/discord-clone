@@ -18,10 +18,12 @@ export async function PATCH(
         if(!params.serverId){
             return new NextResponse("Server not found",{status:400});
         }
+        
+        const {serverId}=await params;
 
         const server=await db.server.update({
             where:{
-                id:params.serverId,
+                id:serverId,
                 profileId:{
                     not:profile.id
                 },

@@ -25,7 +25,7 @@ export const FileUpLoad=({
       const urlObj = new URL(value);
       fileType = urlObj.searchParams.get("ext") ?? undefined;
     } catch {
-      console.error("URL 解析失败:", value);
+        console.log("URL 解析失败:", value);
     }
 
     if(value&&fileType!=="pdf"){
