@@ -20,6 +20,8 @@ export const ActionTooltip=({
     side,
     align
 }:ActionTooltipProps)=>{
+    const safeLabel = typeof label === 'string' ? label : '';
+
     return(
         <TooltipProvider>
             <Tooltip delayDuration={50}>
@@ -28,7 +30,7 @@ export const ActionTooltip=({
                 </TooltipTrigger>
                 <TooltipContent side={side} align={align}>
                     <p className="font-semibold text-sm capitalize">
-                        {label.toLowerCase()}
+                        {safeLabel.toLowerCase()}
                     </p>
                 </TooltipContent>
             </Tooltip>

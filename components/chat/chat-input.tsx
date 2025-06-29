@@ -18,8 +18,6 @@ import { useModal } from "@/hooks/use-modal-store";
 import { EmojiPicker } from "@/components/emoji-picker";
 import { useQueryClient } from "@tanstack/react-query";
 import { useCallback, useEffect, useRef } from "react";
-import { useCurrentUser } from "@/hooks/use-current-user";
-
 interface ChatInputProps{
     apiUrl:string;
     query:Record<string,any>;
@@ -49,8 +47,6 @@ export const ChatInput=({
     const {onOpen}=useModal();
     const queryClient = useQueryClient();
     const optimisticMessagesRef = useRef(new Set<string>()); // 跟踪乐观消息ID
-
-    const { currentUser} = useCurrentUser(query.serverId);
 
     const form=useForm<z.infer<typeof formSchema>>({
         resolver:zodResolver(formSchema),
@@ -96,20 +92,13 @@ export const ChatInput=({
             optimisticTimestamp: now, // 添加时间戳用于排序
             // 使用真实的用户数据
             member: {
-                id: currentUser?.id,
-                role: currentUser?.role,
-                profileId: currentUser?.profileId,
-                serverId: currentUser?.serverId,
-                createdAt: currentUser?.createdAt,
-                updatedAt: currentUser?.updatedAt,
-                profile: {
-                    id: currentUser?.profile.id,
-                    userId: currentUser?.profile.userId,
-                    name: currentUser?.profile.name, // 真实姓名
-                    imageUrl: currentUser?.profile.imageUrl, // 真实头像
-                    email: currentUser?.profile.email,
-                    createdAt: currentUser?.profile.createdAt,
-                    updatedAt: currentUser?.profile.updatedAt,
+                id: currentMember?.id,
+                role: currentMember?.role,
+                profileId: currentMember?.profileId,
+                serverId: currentMember?.serverId,
+                profile:{
+                    name:"you",
+                    imageUrl:"https://img.clerk.com/eyJ0eXBlIjoiZGVmYXVsdCIsImlpZCI6Imluc18ycUZQRGs5OVlRaTNyS3dUVm00aWVCenNrQlgiLCJyaWQiOiJ1c2VyXzJ5c1NpdXdpZ3g0Y0NDVEp3T2tYNjZlb0Y2MiIsImluaXRpYWxzIjoiWE0ifQ"
                 }
             },
             ...(type === "channel" && { channelId: query.channelId }),
