@@ -1,4 +1,3 @@
-// hooks/use-current-user.ts
 import { useEffect, useRef, useState } from "react";
 import { Member, Profile } from "@prisma/client";
 
