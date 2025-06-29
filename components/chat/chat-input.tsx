@@ -81,13 +81,6 @@ export const ChatInput=({
             // 记录这个乐观消息
             optimisticMessagesRef.current.add(tempId);
             
-            console.log("🔄 Creating optimistic message:", {
-                tempId,
-                content: messageContent,
-                memberId: currentMember?.id,
-                timestamp: now
-            });
-            
             const optimisticMessage = {
                 id: tempId,
                 content: messageContent,
@@ -142,11 +135,8 @@ export const ChatInput=({
             // 4. 异步发送到服务器
             try {
                 await axios.post(url, { content: messageContent });
-                console.log("✅ Message sent successfully, waiting for server push...");
                 
-            } catch (error) {
-                console.error("❌ Failed to send message:", error);
-                
+            } catch (error) {                
                 // 发送失败，立即移除乐观更新
                 optimisticMessagesRef.current.delete(tempId);
                 queryClient.setQueryData([queryKey], (oldData: any) => {

@@ -26,9 +26,7 @@ export const useChatSocket = ({
     useEffect(() => {
         if (!socket) return;
 
-        const handleNewMessage = (message: MessageWithMemberWithProfile) => {
-            console.log("Received real message:", message.content);
-            
+        const handleNewMessage = (message: MessageWithMemberWithProfile) => {            
             // 清理对应的乐观更新，并传入真实消息用于正确排序
             if ((window as any).removeOptimisticMessages) {
                 (window as any).removeOptimisticMessages(message.content, message);
@@ -48,7 +46,6 @@ export const useChatSocket = ({
                     );
 
                     if (messageExists) {
-                        console.log("Message already exists, skipping");
                         return oldData;
                     }
 
