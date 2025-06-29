@@ -8,7 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Member, MemberRole, Profile } from "@prisma/client";
 import { Edit, FileIcon, ShieldAlert, ShieldCheck, Trash } from "lucide-react";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import {useRouter,useParams} from "next/navigation";
 
 import { ActionTooltip } from "@/components/action-tooltip";
@@ -49,7 +49,7 @@ const formSchema=z.object({
     content:z.string().min(1),
 });
 
-export const ChatItem=({
+export const ChatItem=memo(({
     id,
     content,
     member,
@@ -61,6 +61,7 @@ export const ChatItem=({
     socketUrl,
     socketQuery
 }:ChatItemProps)=>{
+
     const [isEditing,setIsEditing]=useState(false);
     const {onOpen}=useModal();
     const params=useParams();
@@ -96,6 +97,8 @@ export const ChatItem=({
     const isLoading=form.formState.isSubmitting;
     const onSubmit=async(values:z.infer<typeof formSchema>)=>{
         try{
+            if (!values.content.trim()) return;
+
             const url=qs.stringifyUrl({
                 url:`${socketUrl}/${id}`,
                 query:socketQuery
@@ -109,6 +112,7 @@ export const ChatItem=({
             console.error(error);
         }
     }
+    
     useEffect(()=>{
         form.reset({
             content:content
@@ -240,7 +244,7 @@ export const ChatItem=({
                             />
                         </ActionTooltip>
                     )}
-                    <ActionTooltip label="Edit">
+                    <ActionTooltip label="Delete">
                         <Trash 
                             onClick={()=>onOpen("deleteMessage",{
                                 apiUrl:`${socketUrl}/${id}`,
@@ -253,4 +257,6 @@ export const ChatItem=({
             )}
         </div>
     )
-}
+})
+
+ChatItem.displayName = "ChatItem"

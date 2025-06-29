@@ -68,9 +68,9 @@ export const ChatMessages = ({
 
     // 缓存 socket 参数
     const socketParams = useMemo(() => ({
-        queryKey,
-        addKey,
-        updateKey
+        addKey: `chat:${chatId}:messages`,      // 检查这个格式
+        updateKey: `chat:${chatId}:messages:update`,
+        queryKey: `chat:${chatId}`
     }), [queryKey, addKey, updateKey]);
 
     // 缓存滚动参数

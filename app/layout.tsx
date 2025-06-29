@@ -4,6 +4,7 @@ import { Open_Sans } from 'next/font/google';
 import { cn } from '@/lib/utils';
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { RootProvider } from "@/components/providers/root-provider";
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 // 预加载字体子集
 const inter = Open_Sans({ 

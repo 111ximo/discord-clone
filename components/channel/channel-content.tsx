@@ -41,6 +41,7 @@ export default function ChannelContent({ channel, member }: ChannelContentProps)
               channelId: channel.id,
               serverId: channel.serverId,
             }}
+            currentMember={member}
           />
         </Suspense>
       )}
