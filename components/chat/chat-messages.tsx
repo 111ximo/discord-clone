@@ -44,8 +44,6 @@ export const ChatMessages = ({
     type
 }:ChatMessagesProps) => {
     const queryKey = useMemo(() => `chat:${chatId}`, [chatId]);
-    const addKey = useMemo(() => `chat:${chatId}:messages`, [chatId]);
-    const updateKey = useMemo(() => `chat:${chatId}:messages:update`, [chatId]);
 
     const chatRef = useRef<ElementRef<"div">>(null);
     const bottomRef = useRef<ElementRef<"div">>(null);
