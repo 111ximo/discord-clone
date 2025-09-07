@@ -22,8 +22,9 @@ const ioHandler = (req: NextApiRequest, res: NextApiResponseServerIo) => {
         allowedHeaders: ["content-type"]
       },
       // 添加连接处理
-      connectTimeout: 45000,
-      pingTimeout: 20000,
+      connectTimeout: 30000,
+      pingTimeout: 15000,
+      pingInterval: 20000,
       upgradeTimeout: 10000,
       // 添加传输配置
       transports: ['websocket', 'polling'],
