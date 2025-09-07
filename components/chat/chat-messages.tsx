@@ -71,7 +71,7 @@ export const ChatMessages = ({
         addKey: `chat:${chatId}:messages`,      // 检查这个格式
         updateKey: `chat:${chatId}:messages:update`,
         queryKey: `chat:${chatId}`
-    }), [queryKey, addKey, updateKey]);
+    }), [chatId]);
 
     // 缓存滚动参数
     const scrollParams = useMemo(() => ({
